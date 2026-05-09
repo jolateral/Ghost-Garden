@@ -1,16 +1,19 @@
+// Assets/_Scripts/World/NudgeableObject.cs
 using UnityEngine;
+using UnityEngine.Events;
 
 public class NudgeableObject : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public string nudgeName;
+    public UnityEvent onNudged; // wire up in Inspector
+    public bool isPartOfWinSequence;
+    public int sequenceStep; // 0 = birds, 1 = tarp, 2 = windchimes, 3 = watering can
 
-    // Update is called once per frame
-    void Update()
+    public virtual void Nudge()
     {
-        
+        onNudged?.Invoke();
+        if (isPartOfWinSequence)
+            WinSequenceManager.Instance?.RegisterNudge(sequenceStep);
+        Debug.Log($"Nudged: {nudgeName}");
     }
 }
