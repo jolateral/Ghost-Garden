@@ -7,12 +7,12 @@ public class BirdController : MonoBehaviour
 
     [Header("Birds")]
     public GameObject[] birds;
-    public float flySpeed    = 4f;
-    public float riseHeight  = 10f;
-    public float flutterAmount = 0.15f; // small random wobble as they fly
+    public float flySpeed     = 4f;
+    public float riseHeight   = 10f;
+    public float flutterAmount = 0.15f;
 
     [Header("References")]
-    public TarpAnimator tarpAnimator; // drag your tarp GameObject here
+    public TarpAnimator tarpAnimator;
 
     bool _scared;
 
@@ -23,13 +23,16 @@ public class BirdController : MonoBehaviour
         if (_scared) return;
         _scared = true;
 
-        // Play bird chirp sound at the feeder position
+        // Stop each bird's idle hopping before the fly-away starts
+        foreach (var b in birds)
+        {
+            if (b == null) continue;
+            BirdIdleHop hop = b.GetComponent<BirdIdleHop>();
+            if (hop != null) hop.StopHopping();
+        }
+
         AudioManager.Instance?.PlayBirdChirp(transform.position);
-
-        // Start tarp animation immediately
         tarpAnimator?.BeginCarryAway();
-
-        // Fly birds away
         StartCoroutine(FlyBirdsAway());
     }
 
@@ -39,6 +42,7 @@ public class BirdController : MonoBehaviour
         Vector3[] targets = new Vector3[birds.Length];
         for (int i = 0; i < birds.Length; i++)
         {
+            if (birds[i] == null) continue;
             float angle = (360f / birds.Length) * i + Random.Range(-20f, 20f);
             Vector3 dir = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
             targets[i] = birds[i].transform.position
@@ -46,11 +50,12 @@ public class BirdController : MonoBehaviour
                        + Vector3.up * riseHeight;
         }
 
-        float elapsed   = 0f;
-        float duration  = riseHeight / flySpeed;
+        float elapsed  = 0f;
+        float duration = riseHeight / flySpeed;
+
         Vector3[] starts = new Vector3[birds.Length];
         for (int i = 0; i < birds.Length; i++)
-            starts[i] = birds[i].transform.position;
+            if (birds[i] != null) starts[i] = birds[i].transform.position;
 
         while (elapsed < duration)
         {
@@ -58,15 +63,11 @@ public class BirdController : MonoBehaviour
             for (int i = 0; i < birds.Length; i++)
             {
                 if (birds[i] == null) continue;
-
-                // Arc upward
                 Vector3 pos = Vector3.Lerp(starts[i], targets[i], t);
-                // Flutter
                 pos.x += Mathf.Sin(Time.time * 8f + i) * flutterAmount;
                 pos.z += Mathf.Cos(Time.time * 7f + i) * flutterAmount;
                 birds[i].transform.position = pos;
 
-                // Face direction of travel
                 Vector3 dir = (targets[i] - starts[i]).normalized;
                 if (dir != Vector3.zero)
                     birds[i].transform.rotation = Quaternion.LookRotation(dir);
@@ -76,7 +77,6 @@ public class BirdController : MonoBehaviour
             yield return null;
         }
 
-        // Disable birds once they're off-screen
         foreach (var b in birds)
             if (b != null) b.SetActive(false);
     }

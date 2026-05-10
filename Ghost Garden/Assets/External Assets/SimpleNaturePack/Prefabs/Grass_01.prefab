@@ -190,6 +190,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8903058273634951509}
   - component: {fileID: 6757531004235149912}
+  - component: {fileID: 2828216663844634624}
+  - component: {fileID: 350852479006060663}
+  - component: {fileID: 6529682185057243337}
   m_Layer: 0
   m_Name: Grass_01
   m_TagString: Untagged
@@ -238,3 +241,71 @@ LODGroup:
     - renderer: {fileID: 3720084168579074821}
   m_Enabled: 1
   m_GlobalIlluminationLOD: 0
+--- !u!114 &2828216663844634624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8903058273634794869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a1b56045b5db4d198a65c2a0b89bd4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NudgeSquishAnimation
+  squishScaleY: 0.5
+  squishScaleXZ: 1.3
+  squishDuration: 0.08
+  springDuration: 0.18
+  overshootAmount: 0.12
+  settleDuration: 0.1
+--- !u!114 &350852479006060663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8903058273634794869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a11f4a507274049748adc1e2dc0497f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NudgeableObject
+  nudgeName: Grass 1
+  onNudged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2828216663844634624}
+        m_TargetAssemblyTypeName: NudgeSquishAnimation, Assembly-CSharp
+        m_MethodName: Squish
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  role: 0
+--- !u!65 &6529682185057243337
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8903058273634794869}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.22, y: 0.4, z: 0.2}
+  m_Center: {x: 0, y: 0.24, z: 0}
