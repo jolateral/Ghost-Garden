@@ -6750,6 +6750,7 @@ GameObject:
   m_Component:
   - component: {fileID: 789216703}
   - component: {fileID: 789216702}
+  - component: {fileID: 789216704}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: Untagged
@@ -6823,6 +6824,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1623133567}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &789216704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789216701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 1623133566}
 --- !u!4 &790132866 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5202732821079344928, guid: cebfacc247a640945a2c30b442202fca, type: 3}
@@ -14322,6 +14337,7 @@ MonoBehaviour:
   moveSpeed: 4
   mouseSensitivity: 2
   cameraTransform: {fileID: 789216703}
+  debugFootsteps: 1
 --- !u!143 &1623133570
 CharacterController:
   m_ObjectHideFlags: 0
@@ -19713,6 +19729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36d0f0d9d824249298d9cdbb95ed1974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  debugFootsteps: 1
 --- !u!1001 &2128616904
 PrefabInstance:
   m_ObjectHideFlags: 0

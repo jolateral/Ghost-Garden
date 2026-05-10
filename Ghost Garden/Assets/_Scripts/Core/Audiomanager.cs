@@ -2,15 +2,10 @@ using UnityEngine;
 using FMODUnity;
 using FMOD.Studio;
 
-// Central audio manager. Attach to the GameManager GameObject.
-// All other scripts call AudioManager.Instance.PlayXxx() rather than
-// touching FMOD directly, so event paths are only defined in one place.
-
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
-    // ── FMOD event paths (match your strings bank exactly) ──────────────────
     const string EVT_BIRD_CHIRP       = "event:/Bird Chirp";
     const string EVT_FOOTSTEPS        = "event:/Footsteps";
     const string EVT_AMBIENCE         = "event:/Level Ambience";
@@ -21,10 +16,17 @@ public class AudioManager : MonoBehaviour
     const string EVT_WATERING_CAN     = "event:/Watering Can + Shelf";
     const string EVT_WINDCHIME        = "event:/Windchime";
 
-    // ── Persistent looping instances ─────────────────────────────────────────
     EventInstance _musicInstance;
     EventInstance _ambienceInstance;
-    EventInstance _footstepsInstance;
+    EventInstance _playerFootstepsInstance;
+    EventInstance _neighbourFootstepsInstance;
+
+    bool _playerFootstepsPlaying;
+    bool _neighbourFootstepsPlaying;
+
+    // Set true in Inspector to see footstep debug logs in Console
+    [Header("Debug")]
+    public bool debugFootsteps = true;
 
     void Awake()
     {
@@ -34,14 +36,28 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        // Start looping music and ambience immediately
-        _musicInstance   = RuntimeManager.CreateInstance(EVT_MUSIC);
+        _musicInstance    = RuntimeManager.CreateInstance(EVT_MUSIC);
         _ambienceInstance = RuntimeManager.CreateInstance(EVT_AMBIENCE);
         _musicInstance.start();
         _ambienceInstance.start();
 
-        // Footsteps instance is started/stopped by NeighbourAI
-        _footstepsInstance = RuntimeManager.CreateInstance(EVT_FOOTSTEPS);
+        // Create footstep instances and verify they loaded correctly
+        _playerFootstepsInstance    = RuntimeManager.CreateInstance(EVT_FOOTSTEPS);
+        _neighbourFootstepsInstance = RuntimeManager.CreateInstance(EVT_FOOTSTEPS);
+
+        // Check if the instances are valid
+        _playerFootstepsInstance.getDescription(out EventDescription desc);
+        desc.isValid();
+        if (debugFootsteps)
+        {
+            desc.getPath(out string path);
+            Debug.Log($"[AudioManager] Player footstep event loaded: '{path}'. Instance valid: {_playerFootstepsInstance.isValid()}");
+        }
+
+        _playerFootstepsInstance.set3DAttributes(RuntimeUtils.To3DAttributes(Vector3.zero));
+        _neighbourFootstepsInstance.set3DAttributes(RuntimeUtils.To3DAttributes(Vector3.zero));
+        _playerFootstepsInstance.setParameterByName("Walk Surface", 0f);
+        _neighbourFootstepsInstance.setParameterByName("Walk Surface", 0f);
     }
 
     void OnDestroy()
@@ -50,14 +66,61 @@ public class AudioManager : MonoBehaviour
         _musicInstance.release();
         _ambienceInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         _ambienceInstance.release();
-        _footstepsInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        _footstepsInstance.release();
+        _playerFootstepsInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        _playerFootstepsInstance.release();
+        _neighbourFootstepsInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        _neighbourFootstepsInstance.release();
     }
 
-    // ── One-shot helpers ─────────────────────────────────────────────────────
+    public void SetPlayerFootstepsActive(bool isMoving, Vector3 worldPos)
+    {
+        if (!_playerFootstepsInstance.isValid())
+        {
+            Debug.LogError("[AudioManager] Player footstep instance is NOT valid! The FMOD event may not have loaded.");
+            return;
+        }
 
-    // Play a nudge sound. Pass nudgeQuality 0-1 to drive the FMOD parameter
-    // (0 = wrong nudge / nothing happens, 1 = correct sequence nudge)
+        _playerFootstepsInstance.set3DAttributes(RuntimeUtils.To3DAttributes(worldPos));
+
+        if (isMoving && !_playerFootstepsPlaying)
+        {
+            FMOD.RESULT result = _playerFootstepsInstance.start();
+            _playerFootstepsPlaying = true;
+            if (debugFootsteps)
+                Debug.Log($"[AudioManager] Player footsteps START — FMOD result: {result}");
+        }
+        else if (!isMoving && _playerFootstepsPlaying)
+        {
+            _playerFootstepsInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            _playerFootstepsPlaying = false;
+            if (debugFootsteps)
+                Debug.Log("[AudioManager] Player footsteps STOP");
+        }
+    }
+
+    // ── Neighbour footsteps ───────────────────────────────────────────────────
+
+    public void StartFootsteps()
+    {
+        if (_neighbourFootstepsPlaying) return;
+        _neighbourFootstepsInstance.start();
+        _neighbourFootstepsPlaying = true;
+    }
+
+    public void StopFootsteps()
+    {
+        if (!_neighbourFootstepsPlaying) return;
+        _neighbourFootstepsInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        _neighbourFootstepsPlaying = false;
+    }
+
+    public void UpdateNeighbourFootstepPosition(Vector3 worldPos)
+    {
+        _neighbourFootstepsInstance.set3DAttributes(RuntimeUtils.To3DAttributes(worldPos));
+    }
+
+    // ── One-shots ────────────────────────────────────────────────────────────
+
     public void PlayNudge(float nudgeQuality = 0.5f)
     {
         EventInstance inst = RuntimeManager.CreateInstance(EVT_NUDGE);
@@ -67,59 +130,26 @@ public class AudioManager : MonoBehaviour
     }
 
     public void PlayBirdChirp(Vector3 worldPos)
-    {
-        RuntimeManager.PlayOneShot(EVT_BIRD_CHIRP, worldPos);
-    }
+        => RuntimeManager.PlayOneShot(EVT_BIRD_CHIRP, worldPos);
 
     public void PlayWateringCan(Vector3 worldPos)
-    {
-        RuntimeManager.PlayOneShot(EVT_WATERING_CAN, worldPos);
-    }
+        => RuntimeManager.PlayOneShot(EVT_WATERING_CAN, worldPos);
 
     public void PlayWindchime(Vector3 worldPos)
-    {
-        RuntimeManager.PlayOneShot(EVT_WINDCHIME, worldPos);
-    }
+        => RuntimeManager.PlayOneShot(EVT_WINDCHIME, worldPos);
 
     public void PlayUIPop()
-    {
-        RuntimeManager.PlayOneShot(EVT_UI_POP);
-    }
+        => RuntimeManager.PlayOneShot(EVT_UI_POP);
 
     public void PlayPauseTransition()
-    {
-        RuntimeManager.PlayOneShot(EVT_PAUSE_TRANSITION);
-    }
-
-    // ── Footsteps (called by NeighbourAI) ────────────────────────────────────
-
-    public void StartFootsteps()
-    {
-        _footstepsInstance.start();
-    }
-
-    public void StopFootsteps()
-    {
-        _footstepsInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-    }
-
-    // Set the Walk Surface parameter (e.g. 0 = grass, 1 = path, 2 = gravel)
-    // Match these values to what you set up in FMOD Studio
-    public void SetWalkSurface(float value)
-    {
-        _footstepsInstance.setParameterByName("Walk Surface", value);
-    }
-
-    // ── Music helpers ────────────────────────────────────────────────────────
+        => RuntimeManager.PlayOneShot(EVT_PAUSE_TRANSITION);
 
     public void StopMusic()
-    {
-        _musicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-    }
+        => _musicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+
+    public void SetWalkSurface(float value)
+        => _neighbourFootstepsInstance.setParameterByName("Walk Surface", value);
 
     public void SetAmbienceVolume(float volume)
-    {
-        // volume 0-1
-        _ambienceInstance.setVolume(volume);
-    }
+        => _ambienceInstance.setVolume(volume);
 }
