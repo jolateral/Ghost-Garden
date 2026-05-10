@@ -9,20 +9,17 @@ public class NeighbourAI : MonoBehaviour
     public Transform[] waypoints;
 
     [Header("Proximity Detection")]
-    // Set this in the Inspector to the position of your house/windchimes
     public Transform housePosition;
     public float nearHouseDistance = 6f;
 
-    // Read by WinSequenceManager
-    public bool IsWalking  { get; private set; }
+    public bool IsWalking   { get; private set; }
     public bool IsNearHouse => IsWalking && housePosition != null &&
                                Vector3.Distance(transform.position, housePosition.position)
                                <= nearHouseDistance;
-
     public bool isInspecting;
 
     NavMeshAgent _agent;
-    int _waypointIndex;
+    int  _waypointIndex;
     bool _waitingForPath;
 
     void Awake() => Instance = this;
@@ -35,13 +32,13 @@ public class NeighbourAI : MonoBehaviour
 
     public void TriggerDailyWalk()
     {
-        isInspecting = false;
-        _waypointIndex = 0;
-        IsWalking = false;
-        _waitingForPath = false;
+        isInspecting     = false;
+        _waypointIndex   = 0;
+        IsWalking        = false;
+        _waitingForPath  = false;
         gameObject.SetActive(true);
+        AudioManager.Instance?.StartFootsteps();
         MoveTo(waypoints[0]);
-        Debug.Log("[NeighbourAI] Daily walk started.");
     }
 
     void Update()
@@ -61,7 +58,7 @@ public class NeighbourAI : MonoBehaviour
 
             if (_waypointIndex >= waypoints.Length)
             {
-                Debug.Log("[NeighbourAI] Walk complete — neighbour left.");
+                AudioManager.Instance?.StopFootsteps();
                 gameObject.SetActive(false);
                 return;
             }
@@ -73,17 +70,17 @@ public class NeighbourAI : MonoBehaviour
     void MoveTo(Transform t)
     {
         _agent.SetDestination(t.position);
-        IsWalking = true;
+        IsWalking       = true;
         _waitingForPath = true;
     }
 
     public void NoticeGarden()
     {
         _agent.isStopped = true;
-        IsWalking = false;
-        isInspecting = true;
+        IsWalking        = false;
+        isInspecting     = true;
+        AudioManager.Instance?.StopFootsteps();
         Debug.Log("[NeighbourAI] Neighbour noticed the garden!");
-        // Play a reaction animation here if you have one
         Invoke(nameof(WalkToGarden), 2f);
     }
 
@@ -92,7 +89,6 @@ public class NeighbourAI : MonoBehaviour
         GameManager.Instance?.TriggerWin();
     }
 
-    // Draw the near-house detection radius in the Scene view for easy tuning
     void OnDrawGizmosSelected()
     {
         if (housePosition == null) return;

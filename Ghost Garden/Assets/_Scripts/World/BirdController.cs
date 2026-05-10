@@ -1,31 +1,83 @@
-// Assets/_Scripts/World/BirdController.cs
 using UnityEngine;
+using System.Collections;
 
 public class BirdController : MonoBehaviour
 {
     public static BirdController Instance;
+
+    [Header("Birds")]
     public GameObject[] birds;
-    public Vector3 flyAwayDirection = Vector3.up + Vector3.forward;
-    public float flySpeed = 5f;
+    public float flySpeed    = 4f;
+    public float riseHeight  = 10f;
+    public float flutterAmount = 0.15f; // small random wobble as they fly
+
+    [Header("References")]
+    public TarpAnimator tarpAnimator; // drag your tarp GameObject here
+
     bool _scared;
 
     void Awake() => Instance = this;
 
-    void Update()
-    {
-        if (!_scared) return;
-        foreach (var b in birds)
-            b.transform.position += flyAwayDirection * flySpeed * Time.deltaTime;
-    }
-
     public void ScareAway()
     {
+        if (_scared) return;
         _scared = true;
-        // After 2s, trigger tarp reveal
-        Invoke(nameof(TriggerTarp), 2f);
+
+        // Play bird chirp sound at the feeder position
+        AudioManager.Instance?.PlayBirdChirp(transform.position);
+
+        // Start tarp animation immediately
+        tarpAnimator?.BeginCarryAway();
+
+        // Fly birds away
+        StartCoroutine(FlyBirdsAway());
     }
 
-    void TriggerTarp() =>
-        // Fixed code
-        WinSequenceManager.Instance.RegisterTarpNudge();
+    IEnumerator FlyBirdsAway()
+    {
+        // Give each bird a slightly different escape direction
+        Vector3[] targets = new Vector3[birds.Length];
+        for (int i = 0; i < birds.Length; i++)
+        {
+            float angle = (360f / birds.Length) * i + Random.Range(-20f, 20f);
+            Vector3 dir = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
+            targets[i] = birds[i].transform.position
+                       + dir * 15f
+                       + Vector3.up * riseHeight;
+        }
+
+        float elapsed   = 0f;
+        float duration  = riseHeight / flySpeed;
+        Vector3[] starts = new Vector3[birds.Length];
+        for (int i = 0; i < birds.Length; i++)
+            starts[i] = birds[i].transform.position;
+
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+            for (int i = 0; i < birds.Length; i++)
+            {
+                if (birds[i] == null) continue;
+
+                // Arc upward
+                Vector3 pos = Vector3.Lerp(starts[i], targets[i], t);
+                // Flutter
+                pos.x += Mathf.Sin(Time.time * 8f + i) * flutterAmount;
+                pos.z += Mathf.Cos(Time.time * 7f + i) * flutterAmount;
+                birds[i].transform.position = pos;
+
+                // Face direction of travel
+                Vector3 dir = (targets[i] - starts[i]).normalized;
+                if (dir != Vector3.zero)
+                    birds[i].transform.rotation = Quaternion.LookRotation(dir);
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Disable birds once they're off-screen
+        foreach (var b in birds)
+            if (b != null) b.SetActive(false);
+    }
 }

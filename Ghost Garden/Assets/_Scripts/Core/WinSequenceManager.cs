@@ -1,32 +1,40 @@
 using UnityEngine;
 
-// Tracks the three win conditions independently.
-// Order of completion:
-//   1. Tarp nudged (any time)             -> birds fly away, damaged garden exposed
-//   2. Watering can nudged (before walk)  -> can falls into neighbour's path
-//   3. Windchimes nudged (neighbour nearby) -> neighbour notices garden -> win
-
 public class WinSequenceManager : MonoBehaviour
 {
     public static WinSequenceManager Instance;
 
-    [Header("Win Condition State (read-only in Inspector)")]
+    [Header("Win Condition State")]
     [SerializeField] bool _tarpDone;
     [SerializeField] bool _canDone;
     [SerializeField] bool _windchimesDone;
 
     void Awake() => Instance = this;
 
-    // ─── Called by NudgeableObject ───────────────────────────────────────────
+    // ── Public register methods (called by NudgeableObject) ──────────────────
 
     public void RegisterTarpNudge()
     {
         if (_tarpDone) return;
-
         _tarpDone = true;
-        BirdController.Instance?.ScareAway(); // birds fly off and pull the tarp
+
+        // Find and animate the tarp
+        GameObject tarpObj = GameObject.FindWithTag("Tarp");
+        if (tarpObj != null)
+        {
+            TarpAnimator ta = tarpObj.GetComponent<TarpAnimator>();
+            if (ta != null)
+                ta.BeginCarryAway();
+            else
+                tarpObj.SetActive(false); // fallback
+        }
+
+        // Tell the birds to fly (BirdController also triggers TarpAnimator,
+        // but calling both is safe — BirdController checks _scared flag)
+        BirdController.Instance?.ScareAway();
+
         HUDManager.Instance?.ShowMessage("The birds scatter...");
-        Debug.Log("[WinSequence] Tarp nudged — birds flying away.");
+        Debug.Log("[WinSequence] Tarp nudged.");
     }
 
     public void RegisterWateringCanNudge()
@@ -37,7 +45,6 @@ public class WinSequenceManager : MonoBehaviour
             return;
         }
 
-        // Must happen before the neighbour's walk starts
         if (NeighbourAI.Instance != null && NeighbourAI.Instance.IsWalking)
         {
             HUDManager.Instance?.ShowMessage("Too late — they've already walked past...");
@@ -60,7 +67,6 @@ public class WinSequenceManager : MonoBehaviour
             return;
         }
 
-        // Neighbour must be walking and within range
         NeighbourAI neighbour = NeighbourAI.Instance;
         if (neighbour == null || !neighbour.IsWalking)
         {
@@ -76,41 +82,31 @@ public class WinSequenceManager : MonoBehaviour
 
         _windchimesDone = true;
         PlayWindchimes();
-        HUDManager.Instance?.ShowMessage("The chimes ring out...");
-        Debug.Log("[WinSequence] Windchimes hit — triggering win.");
-
-        // Small delay so the chime sound plays before win screen
+        Debug.Log("[WinSequence] Windchimes triggered — win incoming.");
         Invoke(nameof(TriggerWin), 1.5f);
     }
 
-    // ─── Private helpers ─────────────────────────────────────────────────────
+    // ── Private helpers ───────────────────────────────────────────────────────
 
     void DropWateringCan()
     {
         GameObject canObj = GameObject.FindWithTag("WateringCan");
         if (canObj == null)
         {
-            Debug.LogWarning("[WinSequence] No GameObject tagged 'WateringCan' found.");
+            Debug.LogWarning("[WinSequence] No 'WateringCan' tagged object found.");
             return;
         }
 
-        // Animate the can falling off the shelf
-        WateringCanAnimator animator = canObj.GetComponent<WateringCanAnimator>();
-        if (animator != null)
+        WateringCanAnimator anim = canObj.GetComponent<WateringCanAnimator>();
+        if (anim != null)
         {
-            animator.FallOff();
+            anim.FallOff();
         }
         else
         {
-            // Fallback: just enable physics if no animator present
+            // Fallback if animator not present
             Rigidbody rb = canObj.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.isKinematic = false;
-                rb.useGravity = true;
-                // Give it a small nudge so it tips rather than drops straight down
-                rb.AddForce(Vector3.forward * 1.5f + Vector3.right * 0.5f, ForceMode.Impulse);
-            }
+            if (rb != null) { rb.isKinematic = false; rb.useGravity = true; }
         }
     }
 
@@ -119,22 +115,13 @@ public class WinSequenceManager : MonoBehaviour
         GameObject chimeObj = GameObject.FindWithTag("Windchimes");
         if (chimeObj == null) return;
 
-        AudioSource chimes = chimeObj.GetComponent<AudioSource>();
-        if (chimes != null) chimes.Play();
-
-        // Gently sway the windchime object
         WindchimeAnimator wa = chimeObj.GetComponent<WindchimeAnimator>();
         if (wa != null) wa.Sway();
     }
 
-    void TriggerWin()
-    {
-        NeighbourAI.Instance?.NoticeGarden();
-    }
+    void TriggerWin() => NeighbourAI.Instance?.NoticeGarden();
 
-    // ─── Public getters (used by NeighbourAI / other systems) ────────────────
-
-    public bool TarpDone      => _tarpDone;
-    public bool CanDone       => _canDone;
+    public bool TarpDone       => _tarpDone;
+    public bool CanDone        => _canDone;
     public bool WindchimesDone => _windchimesDone;
 }

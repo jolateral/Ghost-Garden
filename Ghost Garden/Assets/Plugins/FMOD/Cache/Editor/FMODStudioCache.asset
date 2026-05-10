@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/Audio/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639138875292074632
+  lastModified: 639139750903150592
   FileSizes:
   - Name: 
-    Value: 906
+    Value: 1690
   Exists: 1
 --- !u!114 &-8465894791595871183
 MonoBehaviour:
@@ -72,6 +72,33 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &-6914931263091552415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Bird Chirp
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Bird Chirp
+  Guid:
+    Data1: 1865859656
+    Data2: 1236768548
+    Data3: -1641241940
+    Data4: -596769531
+  Banks:
+  - {fileID: -5713362066808748636}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-5713362066808748636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,9 +114,63 @@ MonoBehaviour:
   Path: Assets/Audio/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639138832222155047
+  lastModified: 639139750940642266
   FileSizes: []
   Exists: 1
+--- !u!114 &-3080807755796829561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Windchime
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Windchime
+  Guid:
+    Data1: 1093630531
+    Data2: 1325608015
+    Data3: -1199585362
+    Data4: -115187013
+  Banks:
+  - {fileID: -5713362066808748636}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-2489356242569149415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music Loop
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Music Loop
+  Guid:
+    Data1: -1930042889
+    Data2: 1270871836
+    Data3: -74627435
+    Data4: 2063953755
+  Banks:
+  - {fileID: 6273316921920337197}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 93583
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,18 +187,98 @@ MonoBehaviour:
   - {fileID: -8647800092036659654}
   - {fileID: 3680090855248405677}
   - {fileID: -5713362066808748636}
+  - {fileID: 6273316921920337197}
   EditorEvents:
   - {fileID: -8465894791595871183}
+  - {fileID: -2489356242569149415}
+  - {fileID: 5694050397846990965}
+  - {fileID: 4582134023190076495}
+  - {fileID: 3613577953293516895}
+  - {fileID: -3080807755796829561}
+  - {fileID: -6914931263091552415}
+  - {fileID: 9102645109222960487}
+  - {fileID: 3391073241490064010}
   EditorParameters: []
   MasterBanks:
   - {fileID: 3680090855248405677}
   StringsBanks:
   - {fileID: -8647800092036659654}
   cacheVersion: 131859
-  cacheTime: 639138875292077688
+  cacheTime: 639139750940642266
   SerializableEventsDict:
   - key: event:/Footsteps
     index: 0
+  - key: event:/Music Loop
+    index: 1
+  - key: event:/UI Pop
+    index: 2
+  - key: event:/Watering Can + Shelf
+    index: 3
+  - key: event:/Nudge
+    index: 4
+  - key: event:/Windchime
+    index: 5
+  - key: event:/Bird Chirp
+    index: 6
+  - key: event:/Pause Transition
+    index: 7
+  - key: event:/Level Ambience
+    index: 8
+--- !u!114 &3391073241490064010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Level Ambience
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Level Ambience
+  Guid:
+    Data1: 1602947788
+    Data2: 1162318275
+    Data3: 1645185681
+    Data4: 1978789246
+  Banks:
+  - {fileID: -5713362066808748636}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 79000
+--- !u!114 &3613577953293516895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Nudge
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Nudge
+  Guid:
+    Data1: 1290501945
+    Data2: 1097355102
+    Data3: -1301240417
+    Data4: 202217277
+  Banks:
+  - {fileID: -5713362066808748636}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 4712799300305566909}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &3680090855248405677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +294,129 @@ MonoBehaviour:
   Path: Assets/Audio/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639138875292077688
+  lastModified: 639139750880328789
   FileSizes: []
   Exists: 1
+--- !u!114 &4582134023190076495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Watering Can + Shelf
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Watering Can + Shelf
+  Guid:
+    Data1: -2056916184
+    Data2: 1256575724
+    Data3: -258482001
+    Data4: 1857954296
+  Banks:
+  - {fileID: -5713362066808748636}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &4712799300305566909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Nudge/Nudge Quality
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: Nudge Quality
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3776349672
+    data2: 3175870724
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &5694050397846990965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI Pop
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/UI Pop
+  Guid:
+    Data1: 28842769
+    Data2: 1228595694
+    Data3: -1025650303
+    Data4: 1259119596
+  Banks:
+  - {fileID: -5713362066808748636}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &6273316921920337197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Music.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: Assets/Audio/Music.bank
+  Name: Music
+  StudioPath: bank:/Music
+  lastModified: 639139750922923965
+  FileSizes: []
+  Exists: 1
+--- !u!114 &9102645109222960487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Pause Transition
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Pause Transition
+  Guid:
+    Data1: -397722992
+    Data2: 1186472084
+    Data3: -1865555059
+    Data4: 457137284
+  Banks:
+  - {fileID: -5713362066808748636}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
