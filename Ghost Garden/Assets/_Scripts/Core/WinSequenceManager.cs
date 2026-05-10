@@ -49,14 +49,17 @@ public class WinSequenceManager : MonoBehaviour
         }
     }
 
-    void DropWateringCan()
+void DropWateringCan()
+{
+    GameObject canObj = GameObject.FindWithTag("WateringCan");
+    if (canObj != null)
     {
-        GameObject canObj = GameObject.FindWithTag("WateringCan");
-        if (canObj != null)
+        Rigidbody rb = canObj.GetComponent<Rigidbody>();
+        if (rb != null)
         {
-            Rigidbody rb = canObj.GetComponent<Rigidbody>();
-            if (rb != null)
-                rb.useGravity = true;
+            rb.isKinematic = false;
+            rb.useGravity = true;
         }
     }
+}
 }
