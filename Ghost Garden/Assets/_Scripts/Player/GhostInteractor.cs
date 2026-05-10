@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GhostInteractor : MonoBehaviour
 {
@@ -9,11 +10,35 @@ public class GhostInteractor : MonoBehaviour
 
     NudgeableObject _hovering;
 
+    InputAction _nudgeAction;
+
+    void Awake()
+    {
+        _nudgeAction = new InputAction("Nudge");
+        _nudgeAction.AddBinding("<Keyboard>/e");
+        _nudgeAction.AddBinding("<Mouse>/leftButton");
+    }
+
+    void OnEnable()
+    {
+        _nudgeAction.Enable();
+        _nudgeAction.performed += OnNudgePerformed;
+    }
+
+    void OnDisable()
+    {
+        _nudgeAction.performed -= OnNudgePerformed;
+        _nudgeAction.Disable();
+    }
+
+    void OnNudgePerformed(InputAction.CallbackContext ctx)
+    {
+        TryNudge();
+    }
+
     void Update()
     {
         CheckHover();
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
-            TryNudge();
     }
 
     void CheckHover()
@@ -39,7 +64,6 @@ public class GhostInteractor : MonoBehaviour
         if (_hovering == null) return;
         if (GameManager.Instance.gameWon) return;
 
-        // TrySpendNudge shows the "no nudges left" message automatically
         if (!NudgeSystem.Instance.TrySpendNudge()) return;
 
         _hovering.Nudge();

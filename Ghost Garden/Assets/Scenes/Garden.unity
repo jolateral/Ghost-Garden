@@ -6992,6 +6992,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 299e7a1cb6456cf4fa6079cf5978df9b, type: 3}
+--- !u!1 &834785856
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 834785857}
+  m_Layer: 0
+  m_Name: HousePositionField
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &834785857
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834785856}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.26, y: 0.48954, z: -2.68719}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &836029954
 GameObject:
   m_ObjectHideFlags: 0
@@ -8860,6 +8891,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2772152831358782341, guid: 3b5a8ac22cc884115936ca6f1563b8f5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1663241746}
+    - targetCorrespondingSourceObject: {fileID: 2772152831358782341, guid: 3b5a8ac22cc884115936ca6f1563b8f5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1663241749}
   m_SourcePrefab: {fileID: 100100000, guid: 3b5a8ac22cc884115936ca6f1563b8f5, type: 3}
 --- !u!1 &1119785393 stripped
 GameObject:
@@ -9472,6 +9506,7 @@ GameObject:
   - component: {fileID: 1206423975}
   - component: {fileID: 1206423974}
   - component: {fileID: 1206423973}
+  - component: {fileID: 1206423977}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Windchimes
@@ -9488,7 +9523,7 @@ Transform:
   m_GameObject: {fileID: 1206423971}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.7, y: 1.839, z: -3.94}
+  m_LocalPosition: {x: -11.044, y: 1.707, z: -3.94}
   m_LocalScale: {x: 0.1, y: 0.2, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9510,8 +9545,7 @@ MonoBehaviour:
   onNudged:
     m_PersistentCalls:
       m_Calls: []
-  isPartOfWinSequence: 1
-  sequenceStep: 3
+  role: 3
 --- !u!136 &1206423974
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9592,6 +9626,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1206423971}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1206423977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206423971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a0f17d5f39d41288ce92faf4861b40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WindchimeAnimator
+  swayAngle: 15
+  swaySpeed: 2
+  swayDuration: 3
 --- !u!1001 &1225406472
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13668,7 +13717,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -121.6}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1520798512
@@ -14587,8 +14636,23 @@ MonoBehaviour:
   onNudged:
     m_PersistentCalls:
       m_Calls: []
-  isPartOfWinSequence: 1
-  sequenceStep: 3
+  role: 2
+--- !u!114 &1663241749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119785393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fefeee9c4c2794111b2d79799102f6c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WateringCanAnimator
+  fallDirection: {x: 1, y: 0, z: 0}
+  tipSpeed: 120
+  tipAngle: 45
+  landSound: {fileID: 0}
 --- !u!4 &1665534355 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 880970725214738984, guid: c60edd51c065ceb46b345849a03bc106, type: 3}
@@ -15035,6 +15099,8 @@ MonoBehaviour:
   waypoints:
   - {fileID: 927117856}
   - {fileID: 1800568812}
+  housePosition: {fileID: 834785857}
+  nearHouseDistance: 3.71
   isInspecting: 0
 --- !u!195 &1723551609
 NavMeshAgent:
@@ -15046,7 +15112,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -18151,8 +18217,7 @@ MonoBehaviour:
   onNudged:
     m_PersistentCalls:
       m_Calls: []
-  isPartOfWinSequence: 1
-  sequenceStep: 0
+  role: 1
 --- !u!64 &2015901065
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -18424,7 +18489,7 @@ Transform:
   m_GameObject: {fileID: 2030998169}
   serializedVersion: 2
   m_LocalRotation: {x: 0.0065077217, y: 0.2485201, z: 0.025355095, w: 0.968273}
-  m_LocalPosition: {x: -10.375, y: -0.89, z: -4.41}
+  m_LocalPosition: {x: -10.375, y: -0.83, z: -4.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19543,6 +19608,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c5fb08c72354cbbbb09ece81844d73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WinSequenceManager
+  _tarpDone: 0
+  _canDone: 0
+  _windchimesDone: 0
 --- !u!114 &2118184239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19568,7 +19636,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411ccfac81efb4253b85c73f731a8f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DayNightCycle
-  dayLengthSeconds: 60
+  dayLengthSeconds: 30
+  neighbourWalkTime: 0.2
   directionalLight: {fileID: 2144459340}
   skyColour:
     serializedVersion: 2
@@ -20024,3 +20093,4 @@ SceneRoots:
   - {fileID: 1800568812}
   - {fileID: 1753655398}
   - {fileID: 2081409131}
+  - {fileID: 834785857}

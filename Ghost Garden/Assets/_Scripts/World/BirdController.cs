@@ -26,5 +26,6 @@ public class BirdController : MonoBehaviour
     }
 
     void TriggerTarp() =>
-        WinSequenceManager.Instance?.RegisterNudge(1);
+        // Fixed code
+        WinSequenceManager.Instance.RegisterTarpNudge();
 }
