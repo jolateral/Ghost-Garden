@@ -3428,8 +3428,10 @@ MonoBehaviour:
   - {fileID: 1482486901}
   - {fileID: 1607870212}
   - {fileID: 717523871}
-  flyAwayDirection: {x: 0, y: 1, z: 1}
   flySpeed: 5
+  riseHeight: 10
+  flutterAmount: 0.15
+  tarpAnimator: {fileID: 0}
 --- !u!4 &415106703
 Transform:
   m_ObjectHideFlags: 0
@@ -14652,7 +14654,6 @@ MonoBehaviour:
   fallDirection: {x: 1, y: 0, z: 0}
   tipSpeed: 120
   tipAngle: 45
-  landSound: {fileID: 0}
 --- !u!4 &1665534355 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 880970725214738984, guid: c60edd51c065ceb46b345849a03bc106, type: 3}
@@ -19589,6 +19590,7 @@ GameObject:
   - component: {fileID: 2118184240}
   - component: {fileID: 2118184239}
   - component: {fileID: 2118184238}
+  - component: {fileID: 2118184243}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -19699,6 +19701,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2118184243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118184237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36d0f0d9d824249298d9cdbb95ed1974, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
 --- !u!1001 &2128616904
 PrefabInstance:
   m_ObjectHideFlags: 0
