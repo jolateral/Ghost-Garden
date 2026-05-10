@@ -11,7 +11,8 @@ public class NudgeableObject : MonoBehaviour
 
     public enum NudgeRole
     {
-        None,
+        None,        // decorative — plays nudge sound + squish animation
+        Foliage,     // trees/flowers — plays foliage brush sound + squish animation
         Tarp,
         WateringCan,
         Windchimes
@@ -24,8 +25,18 @@ public class NudgeableObject : MonoBehaviour
 
         switch (role)
         {
+            case NudgeRole.None:
+                AudioManager.Instance?.PlayNudge(0f);
+                HUDManager.Instance?.ShowMessage("...");
+                break;
+
+            case NudgeRole.Foliage:
+                // Foliage brush sound — no HUD message, just rustling
+                AudioManager.Instance?.PlayFoliageBrush(transform.position);
+                break;
+
             case NudgeRole.Tarp:
-                AudioManager.Instance?.PlayNudge(1f); // correct nudge quality
+                AudioManager.Instance?.PlayNudge(1f);
                 WinSequenceManager.Instance?.RegisterTarpNudge();
                 break;
 
@@ -35,19 +46,12 @@ public class NudgeableObject : MonoBehaviour
                 break;
 
             case NudgeRole.Windchimes:
-                // Windchime audio is handled inside WindchimeAnimator.Sway()
-                // so we only play the nudge sound if it fails
                 bool ok = WinSequenceManager.Instance != null &&
                           NeighbourAI.Instance != null &&
                           NeighbourAI.Instance.IsWalking &&
                           NeighbourAI.Instance.IsNearHouse;
                 AudioManager.Instance?.PlayNudge(ok ? 1f : 0f);
                 WinSequenceManager.Instance?.RegisterWindchimeNudge();
-                break;
-
-            case NudgeRole.None:
-                AudioManager.Instance?.PlayNudge(0f); // ambient/wrong nudge
-                HUDManager.Instance?.ShowMessage("...");
                 break;
         }
     }

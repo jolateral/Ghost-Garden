@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/Audio/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639139750903150592
+  lastModified: 639140248402875270
   FileSizes:
   - Name: 
-    Value: 1690
+    Value: 1862
   Exists: 1
 --- !u!114 &-8465894791595871183
 MonoBehaviour:
@@ -42,7 +42,7 @@ MonoBehaviour:
   - {fileID: -5713362066808748636}
   IsStream: 0
   Is3D: 1
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters:
   - {fileID: -7829448684103275405}
   MinDistance: 1
@@ -114,7 +114,7 @@ MonoBehaviour:
   Path: Assets/Audio/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639139750940642266
+  lastModified: 639140248440470720
   FileSizes: []
   Exists: 1
 --- !u!114 &-3080807755796829561
@@ -198,13 +198,15 @@ MonoBehaviour:
   - {fileID: -6914931263091552415}
   - {fileID: 9102645109222960487}
   - {fileID: 3391073241490064010}
+  - {fileID: 7679418077131156027}
+  - {fileID: 2051850217424161513}
   EditorParameters: []
   MasterBanks:
   - {fileID: 3680090855248405677}
   StringsBanks:
   - {fileID: -8647800092036659654}
   cacheVersion: 131859
-  cacheTime: 639139750940642266
+  cacheTime: 639140248440470720
   SerializableEventsDict:
   - key: event:/Footsteps
     index: 0
@@ -224,6 +226,37 @@ MonoBehaviour:
     index: 7
   - key: event:/Level Ambience
     index: 8
+  - key: event:/Thud
+    index: 9
+  - key: event:/Foliage Brush
+    index: 10
+--- !u!114 &2051850217424161513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Foliage Brush
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Foliage Brush
+  Guid:
+    Data1: -2082879559
+    Data2: 1295577692
+    Data3: 423184539
+    Data4: 2034095357
+  Banks:
+  - {fileID: -5713362066808748636}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &3391073241490064010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,7 +327,7 @@ MonoBehaviour:
   Path: Assets/Audio/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639139750880328789
+  lastModified: 639140248378858124
   FileSizes: []
   Exists: 1
 --- !u!114 &4582134023190076495
@@ -390,9 +423,36 @@ MonoBehaviour:
   Path: Assets/Audio/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639139750922923965
+  lastModified: 639140248422215127
   FileSizes: []
   Exists: 1
+--- !u!114 &7679418077131156027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Thud
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Thud
+  Guid:
+    Data1: -1006337396
+    Data2: 1232706001
+    Data3: -1562925419
+    Data4: 1546074761
+  Banks:
+  - {fileID: -5713362066808748636}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &9102645109222960487
 MonoBehaviour:
   m_ObjectHideFlags: 0

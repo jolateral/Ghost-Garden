@@ -6,16 +6,20 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
+    // ── Event paths from Master_strings.bank ─────────────────────────────────
     const string EVT_BIRD_CHIRP       = "event:/Bird Chirp";
+    const string EVT_FOLIAGE_BRUSH    = "event:/Foliage Brush";  // new — trees/flowers
     const string EVT_FOOTSTEPS        = "event:/Footsteps";
     const string EVT_AMBIENCE         = "event:/Level Ambience";
     const string EVT_MUSIC            = "event:/Music Loop";
     const string EVT_NUDGE            = "event:/Nudge";
     const string EVT_PAUSE_TRANSITION = "event:/Pause Transition";
+    const string EVT_THUD             = "event:/Thud";            // new — impact sound
     const string EVT_UI_POP           = "event:/UI Pop";
     const string EVT_WATERING_CAN     = "event:/Watering Can + Shelf";
     const string EVT_WINDCHIME        = "event:/Windchime";
 
+    // ── Looping instances ─────────────────────────────────────────────────────
     EventInstance _musicInstance;
     EventInstance _ambienceInstance;
     EventInstance _playerFootstepsInstance;
@@ -23,10 +27,6 @@ public class AudioManager : MonoBehaviour
 
     bool _playerFootstepsPlaying;
     bool _neighbourFootstepsPlaying;
-
-    // Set true in Inspector to see footstep debug logs in Console
-    [Header("Debug")]
-    public bool debugFootsteps = true;
 
     void Awake()
     {
@@ -41,18 +41,8 @@ public class AudioManager : MonoBehaviour
         _musicInstance.start();
         _ambienceInstance.start();
 
-        // Create footstep instances and verify they loaded correctly
         _playerFootstepsInstance    = RuntimeManager.CreateInstance(EVT_FOOTSTEPS);
         _neighbourFootstepsInstance = RuntimeManager.CreateInstance(EVT_FOOTSTEPS);
-
-        // Check if the instances are valid
-        _playerFootstepsInstance.getDescription(out EventDescription desc);
-        desc.isValid();
-        if (debugFootsteps)
-        {
-            desc.getPath(out string path);
-            Debug.Log($"[AudioManager] Player footstep event loaded: '{path}'. Instance valid: {_playerFootstepsInstance.isValid()}");
-        }
 
         _playerFootstepsInstance.set3DAttributes(RuntimeUtils.To3DAttributes(Vector3.zero));
         _neighbourFootstepsInstance.set3DAttributes(RuntimeUtils.To3DAttributes(Vector3.zero));
@@ -72,29 +62,17 @@ public class AudioManager : MonoBehaviour
         _neighbourFootstepsInstance.release();
     }
 
+    // ── Player footsteps ──────────────────────────────────────────────────────
+
+    public void PlayPlayerFootstep(Vector3 worldPos)
+        => RuntimeManager.PlayOneShot(EVT_FOOTSTEPS, worldPos);
+
     public void SetPlayerFootstepsActive(bool isMoving, Vector3 worldPos)
     {
-        if (!_playerFootstepsInstance.isValid())
-        {
-            Debug.LogError("[AudioManager] Player footstep instance is NOT valid! The FMOD event may not have loaded.");
-            return;
-        }
-
-        _playerFootstepsInstance.set3DAttributes(RuntimeUtils.To3DAttributes(worldPos));
-
-        if (isMoving && !_playerFootstepsPlaying)
-        {
-            FMOD.RESULT result = _playerFootstepsInstance.start();
-            _playerFootstepsPlaying = true;
-            if (debugFootsteps)
-                Debug.Log($"[AudioManager] Player footsteps START — FMOD result: {result}");
-        }
-        else if (!isMoving && _playerFootstepsPlaying)
+        if (!isMoving && _playerFootstepsPlaying)
         {
             _playerFootstepsInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             _playerFootstepsPlaying = false;
-            if (debugFootsteps)
-                Debug.Log("[AudioManager] Player footsteps STOP");
         }
     }
 
@@ -115,11 +93,12 @@ public class AudioManager : MonoBehaviour
     }
 
     public void UpdateNeighbourFootstepPosition(Vector3 worldPos)
-    {
-        _neighbourFootstepsInstance.set3DAttributes(RuntimeUtils.To3DAttributes(worldPos));
-    }
+        => _neighbourFootstepsInstance.set3DAttributes(RuntimeUtils.To3DAttributes(worldPos));
 
-    // ── One-shots ────────────────────────────────────────────────────────────
+    public void SetWalkSurface(float value)
+        => _neighbourFootstepsInstance.setParameterByName("Walk Surface", value);
+
+    // ── One-shots ─────────────────────────────────────────────────────────────
 
     public void PlayNudge(float nudgeQuality = 0.5f)
     {
@@ -128,6 +107,14 @@ public class AudioManager : MonoBehaviour
         inst.start();
         inst.release();
     }
+
+    // Played when the player nudges a foliage object (tree, flower, bush)
+    public void PlayFoliageBrush(Vector3 worldPos)
+        => RuntimeManager.PlayOneShot(EVT_FOLIAGE_BRUSH, worldPos);
+
+    // Played on heavy impacts e.g. watering can hitting the ground
+    public void PlayThud(Vector3 worldPos)
+        => RuntimeManager.PlayOneShot(EVT_THUD, worldPos);
 
     public void PlayBirdChirp(Vector3 worldPos)
         => RuntimeManager.PlayOneShot(EVT_BIRD_CHIRP, worldPos);
@@ -146,9 +133,6 @@ public class AudioManager : MonoBehaviour
 
     public void StopMusic()
         => _musicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-
-    public void SetWalkSurface(float value)
-        => _neighbourFootstepsInstance.setParameterByName("Walk Surface", value);
 
     public void SetAmbienceVolume(float volume)
         => _ambienceInstance.setVolume(volume);
