@@ -2955,6 +2955,7 @@ GameObject:
   - component: {fileID: 289975493}
   - component: {fileID: 289975495}
   - component: {fileID: 289975494}
+  - component: {fileID: 289975496}
   m_Layer: 5
   m_Name: LossPanel
   m_TagString: Untagged
@@ -3021,6 +3022,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 289975492}
   m_CullTransparentMesh: 1
+--- !u!225 &289975496
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289975492}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!4 &297293834 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5202732821079344928, guid: cebfacc247a640945a2c30b442202fca, type: 3}
@@ -4798,8 +4811,12 @@ MonoBehaviour:
   nudgeText: {fileID: 1744227285}
   dayText: {fileID: 480775300}
   messageText: {fileID: 1520798512}
-  winPanel: {fileID: 1301739584}
-  losePanel: {fileID: 289975492}
+  winPanel: {fileID: 1301739588}
+  losePanel: {fileID: 289975496}
+  winHomeButton: {fileID: 0}
+  loseHomeButton: {fileID: 0}
+  panelFadeDuration: 1
+  panelFadeDelay: 0.8
 --- !u!1001 &493741715
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11601,6 +11618,7 @@ GameObject:
   - component: {fileID: 1301739585}
   - component: {fileID: 1301739587}
   - component: {fileID: 1301739586}
+  - component: {fileID: 1301739588}
   m_Layer: 5
   m_Name: WinPanel
   m_TagString: Untagged
@@ -11667,6 +11685,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1301739584}
   m_CullTransparentMesh: 1
+--- !u!225 &1301739588
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301739584}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1304680123
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11675,6 +11705,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 225805774}
     m_Modifications:
+    - target: {fileID: 2416750862860352891, guid: ff62b58c5a9ea164fa8ddf8038e10cd1, type: 3}
+      propertyPath: m_Size.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2416750862860352891, guid: ff62b58c5a9ea164fa8ddf8038e10cd1, type: 3}
+      propertyPath: m_Size.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2416750862860352891, guid: ff62b58c5a9ea164fa8ddf8038e10cd1, type: 3}
+      propertyPath: m_Size.z
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 4385080170327957909, guid: ff62b58c5a9ea164fa8ddf8038e10cd1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.464
@@ -19641,7 +19683,7 @@ Transform:
   m_GameObject: {fileID: 2015901062}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.749, y: 0.709, z: -2.051}
+  m_LocalPosition: {x: -7.749, y: 0.709, z: -2.143}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []

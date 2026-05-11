@@ -33,6 +33,7 @@ public class NudgeableObject : MonoBehaviour
             case NudgeRole.Foliage:
                 // Foliage brush sound — no HUD message, just rustling
                 AudioManager.Instance?.PlayFoliageBrush(transform.position);
+                HUDManager.Instance?.ShowMessage("...");
                 break;
 
             case NudgeRole.Tarp:
