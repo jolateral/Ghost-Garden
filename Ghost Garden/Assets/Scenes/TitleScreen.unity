@@ -726,6 +726,7 @@ GameObject:
   - component: {fileID: 1026067481}
   - component: {fileID: 1026067480}
   - component: {fileID: 1026067482}
+  - component: {fileID: 1026067483}
   m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
@@ -835,6 +836,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1026067483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026067478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89dd978ea5ab3423f9086fd494c0f4a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverBold
+  buttonText: {fileID: 0}
+  playHoverSound: 1
 --- !u!1 &1275091048
 GameObject:
   m_ObjectHideFlags: 0
@@ -1592,6 +1607,7 @@ GameObject:
   - component: {fileID: 2120075688}
   - component: {fileID: 2120075687}
   - component: {fileID: 2120075686}
+  - component: {fileID: 2120075690}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -1701,6 +1717,20 @@ RectTransform:
   m_AnchoredPosition: {x: -1000, y: 61}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2120075690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120075685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89dd978ea5ab3423f9086fd494c0f4a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverBold
+  buttonText: {fileID: 0}
+  playHoverSound: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
