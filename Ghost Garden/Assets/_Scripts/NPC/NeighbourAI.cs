@@ -15,7 +15,7 @@ public class NeighbourAI : MonoBehaviour
     public Transform housePosition;
     public float nearHouseDistance = 6f;
 
-    public bool IsWalking  { get; private set; }
+    public bool IsWalking   { get; private set; }
     public bool IsNearHouse => IsWalking && housePosition != null &&
                                Vector3.Distance(transform.position, housePosition.position)
                                <= nearHouseDistance;
@@ -23,7 +23,8 @@ public class NeighbourAI : MonoBehaviour
     public bool isInspecting;
 
     NavMeshAgent _agent;
-    bool _waitingForPath;
+    Animator     _animator;
+    bool         _waitingForPath;
 
     List<Transform> _route = new List<Transform>();
     int _routeIndex;
@@ -32,7 +33,8 @@ public class NeighbourAI : MonoBehaviour
 
     void Start()
     {
-        _agent = gameObject.GetComponent<NavMeshAgent>();
+        _agent    = GetComponent<NavMeshAgent>();
+        _animator = GetComponent<Animator>();
         gameObject.SetActive(false);
     }
 
@@ -45,26 +47,20 @@ public class NeighbourAI : MonoBehaviour
         }
 
         isInspecting    = false;
-        IsWalking       = false;
         _waitingForPath = false;
         WalkElapsed     = 0f;
 
-        // Build the full route as a List so the logic is easy to read and verify.
-        // Example: waypoints = [A, B, C]
-        // Forward pass:  A → B → C
-        // Reverse pass:  B → A         (skip C since we're already there)
-        // Full route:    [A, B, C, B, A]
+        // Build full round-trip route.
+        // Example: waypoints = [A, B, C] → route = [A, B, C, B, A]
         _route.Clear();
 
-        // Forward
         for (int i = 0; i < waypoints.Length; i++)
             _route.Add(waypoints[i]);
 
-        // Reverse — start from second-to-last so we don't repeat the turnaround point
         for (int i = waypoints.Length - 2; i >= 0; i--)
             _route.Add(waypoints[i]);
 
-        // Log the built route so you can verify it in the Console
+        // Log route for debugging
         string routeStr = "";
         for (int i = 0; i < _route.Count; i++)
             routeStr += _route[i].name + (i < _route.Count - 1 ? " → " : "");
@@ -94,7 +90,7 @@ public class NeighbourAI : MonoBehaviour
 
         if (_agent.remainingDistance <= _agent.stoppingDistance)
         {
-            IsWalking = false;
+            SetWalking(false);
             _routeIndex++;
 
             if (_routeIndex >= _route.Count)
@@ -114,15 +110,22 @@ public class NeighbourAI : MonoBehaviour
     void MoveTo(Transform t)
     {
         _agent.SetDestination(t.position);
-        IsWalking       = true;
         _waitingForPath = true;
+        SetWalking(true);
+    }
+
+    // Sets the IsWalking state and keeps the Animator in sync
+    void SetWalking(bool walking)
+    {
+        IsWalking = walking;
+        _animator?.SetBool("IsWalking", walking);
     }
 
     public void NoticeGarden()
     {
         _agent.isStopped = true;
-        IsWalking        = false;
         isInspecting     = true;
+        SetWalking(false);
         AudioManager.Instance?.StopFootsteps();
         Debug.Log("[NeighbourAI] Neighbour noticed the garden!");
         Invoke(nameof(WalkToGarden), 2f);
