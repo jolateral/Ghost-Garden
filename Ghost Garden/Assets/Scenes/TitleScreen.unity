@@ -862,8 +862,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89dd978ea5ab3423f9086fd494c0f4a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverBold
-  buttonText: {fileID: 0}
-  playHoverSound: 1
+  buttonText: {fileID: 162577539}
+  playHoverSound: 0
 --- !u!1 &1275091048
 GameObject:
   m_ObjectHideFlags: 0
@@ -1758,8 +1758,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89dd978ea5ab3423f9086fd494c0f4a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverBold
-  buttonText: {fileID: 0}
-  playHoverSound: 1
+  buttonText: {fileID: 1356352283}
+  playHoverSound: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

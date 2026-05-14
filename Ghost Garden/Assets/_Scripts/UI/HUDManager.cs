@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections;
+using FMODUnity; // Required for FMOD integration
 
 public class HUDManager : MonoBehaviour
 {
@@ -14,21 +15,20 @@ public class HUDManager : MonoBehaviour
     public TextMeshProUGUI messageText;
 
     [Header("Panels")]
-    // Each panel needs a CanvasGroup component for fading.
-    // Add one via Add Component → Canvas Group on each panel.
     public CanvasGroup winPanel;
     public CanvasGroup losePanel;
 
-    [Header("Home Buttons")]
-    // Drag the Home button from the Win panel here
+    [Header("Navigation Settings")]
+    public string titleScreenName = "TitleScreen"; 
     public Button winHomeButton;
-    // Drag the Home button from the Lose panel here
     public Button loseHomeButton;
+
+    [Header("Audio Events")]
+    // Assign your pop sound from the Master.bank here in the Inspector
+    [SerializeField] private EventReference buttonPopEvent;
 
     [Header("Fade Settings")]
     public float panelFadeDuration = 1f;
-    // Delay before the panel starts fading in, so the player
-    // has a moment to process what just happened
     public float panelFadeDelay   = 0.8f;
 
     void Awake()
@@ -45,28 +45,29 @@ public class HUDManager : MonoBehaviour
 
         messageText.gameObject.SetActive(false);
 
-        // Hide both panels fully at start
-        if (winPanel)
-        {
-            winPanel.alpha          = 0f;
-            winPanel.interactable   = false;
-            winPanel.blocksRaycasts = false;
-            winPanel.gameObject.SetActive(false);
-        }
-        if (losePanel)
-        {
-            losePanel.alpha          = 0f;
-            losePanel.interactable   = false;
-            losePanel.blocksRaycasts = false;
-            losePanel.gameObject.SetActive(false);
-        }
+        SetupPanel(winPanel);
+        SetupPanel(losePanel);
 
-        // Wire up home buttons
         if (winHomeButton)  winHomeButton.onClick.AddListener(GoToTitleScreen);
         if (loseHomeButton) loseHomeButton.onClick.AddListener(GoToTitleScreen);
     }
 
-    // ── HUD updates ───────────────────────────────────────────────────────────
+    private void SetupPanel(CanvasGroup panel)
+    {
+        if (panel != null)
+        {
+            panel.alpha          = 0f;
+            panel.interactable   = false;
+            panel.blocksRaycasts = false;
+            panel.gameObject.SetActive(false);
+        }
+    }
+
+    private void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
 
     public void UpdateNudgeDisplay(int remaining, int total)
     {
@@ -94,30 +95,33 @@ public class HUDManager : MonoBehaviour
         messageText.gameObject.SetActive(false);
     }
 
-    // ── Win / Lose panels ─────────────────────────────────────────────────────
-
     public void ShowWinScreen()
     {
-        if (winPanel) StartCoroutine(FadeInPanel(winPanel));
+        if (winPanel) 
+        {
+            UnlockCursor();
+            StartCoroutine(FadeInPanel(winPanel));
+        }
     }
 
     public void ShowLoseScreen()
     {
-        if (losePanel) StartCoroutine(FadeInPanel(losePanel));
+        if (losePanel) 
+        {
+            UnlockCursor();
+            StartCoroutine(FadeInPanel(losePanel));
+        }
     }
 
     IEnumerator FadeInPanel(CanvasGroup panel)
     {
-        // Activate but keep invisible so layout is ready
         panel.gameObject.SetActive(true);
         panel.alpha          = 0f;
         panel.interactable   = false;
         panel.blocksRaycasts = false;
 
-        // Brief pause before fading
         yield return new WaitForSeconds(panelFadeDelay);
 
-        // Fade in
         float elapsed = 0f;
         while (elapsed < panelFadeDuration)
         {
@@ -127,24 +131,25 @@ public class HUDManager : MonoBehaviour
         }
 
         panel.alpha          = 1f;
-        panel.interactable   = true;   // buttons are now clickable
+        panel.interactable   = true;   
         panel.blocksRaycasts = true;
     }
 
-    // ── Navigation ────────────────────────────────────────────────────────────
+    // ── Navigation & Audio ──────────────────────────────────────────────────
 
     void GoToTitleScreen()
     {
+        // Play the pop sound only when the button is clicked
+        PlaySound(buttonPopEvent);
+        
         StartCoroutine(FadeToBlackAndLoad());
     }
 
     IEnumerator FadeToBlackAndLoad()
     {
-        // Disable both home buttons so they can't be clicked twice
         if (winHomeButton)  winHomeButton.interactable  = false;
         if (loseHomeButton) loseHomeButton.interactable = false;
 
-        // Fade the active panel back out before switching scenes
         CanvasGroup active = (winPanel  != null && winPanel.alpha  > 0f) ? winPanel
                            : (losePanel != null && losePanel.alpha > 0f) ? losePanel
                            : null;
@@ -160,6 +165,14 @@ public class HUDManager : MonoBehaviour
             }
         }
 
-        SceneManager.LoadScene("TitleScreen");
+        SceneManager.LoadScene(titleScreenName);
+    }
+
+    private void PlaySound(EventReference eventRef)
+    {
+        if (!eventRef.IsNull)
+        {
+            RuntimeManager.PlayOneShot(eventRef);
+        }
     }
 }
