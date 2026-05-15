@@ -5,10 +5,8 @@ public class DayNightCycle : MonoBehaviour
     [Header("Timing")]
     public float dayLengthSeconds     = 120f;
     public float nightSpeedMultiplier = 2f;
-
     [Range(0f, 1f)] public float nightStart = 0.75f;
     [Range(0f, 1f)] public float nightEnd   = 0.25f;
-
     public float neighbourWalkTime = 0.3f;
 
     [Header("Lighting")]
@@ -17,14 +15,12 @@ public class DayNightCycle : MonoBehaviour
 
     [Header("Skybox")]
     public Material skyboxBlendMaterial;
-
     [Range(0.01f, 0.3f)]
     public float transitionWidth = 0.08f;
 
     float _time;
     bool  _neighbourTriggeredToday;
 
-    // Read by FireflyController and any other system that needs the time of day
     public float CurrentTime => _time;
 
     void Start()
@@ -47,6 +43,7 @@ public class DayNightCycle : MonoBehaviour
         }
 
         UpdateSkybox();
+        AudioManager.Instance?.SetTimeOfDay(isNight);
 
         if (!_neighbourTriggeredToday && _time >= neighbourWalkTime)
         {

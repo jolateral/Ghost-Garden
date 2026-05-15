@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/Audio/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639140248402875270
+  lastModified: 639144423928335443
   FileSizes:
   - Name: 
-    Value: 1862
+    Value: 2102
   Exists: 1
 --- !u!114 &-8465894791595871183
 MonoBehaviour:
@@ -46,8 +46,34 @@ MonoBehaviour:
   Parameters:
   - {fileID: -7829448684103275405}
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 10
   Length: 0
+--- !u!114 &-8193623395751266065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Time Of Day
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: Time Of Day
+  StudioPath: parameter:/Time Of Day
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 489211366
+    data2: 2938733374
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - Day
+  - Night
+  Exists: 1
 --- !u!114 &-7829448684103275405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,6 +125,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-5864222162391183847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Female Voice 2
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Female Voice 2
+  Guid:
+    Data1: 1193707828
+    Data2: 1233318692
+    Data3: 1954906771
+    Data4: -1033073446
+  Banks:
+  - {fileID: -5713362066808748636}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 9.8
+  Length: 0
 --- !u!114 &-5713362066808748636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,8 +167,34 @@ MonoBehaviour:
   Path: Assets/Audio/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639140248440470720
+  lastModified: 639144423952548280
   FileSizes: []
+  Exists: 1
+--- !u!114 &-3581675346921734350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Level Ambience/Time Of Day
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: Time Of Day
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 489211366
+    data2: 2938733374
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - Day
+  - Night
   Exists: 1
 --- !u!114 &-3080807755796829561
 MonoBehaviour:
@@ -167,10 +246,55 @@ MonoBehaviour:
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
-  Parameters: []
+  Parameters:
+  - {fileID: -673498802038085477}
   MinDistance: 1
   MaxDistance: 20
-  Length: 93583
+  Length: 196741
+--- !u!114 &-673498802038085477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Music Loop/Time Of Day
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: Time Of Day
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 489211366
+    data2: 2938733374
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - Day
+  - Night
+  Exists: 1
+--- !u!114 &-444223018412061079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: Assets/Audio/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 639144423917449211
+  FileSizes: []
+  Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,9 +309,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EventCache
   EditorBanks:
   - {fileID: -8647800092036659654}
-  - {fileID: 3680090855248405677}
   - {fileID: -5713362066808748636}
   - {fileID: 6273316921920337197}
+  - {fileID: -444223018412061079}
   EditorEvents:
   - {fileID: -8465894791595871183}
   - {fileID: -2489356242569149415}
@@ -200,13 +324,18 @@ MonoBehaviour:
   - {fileID: 3391073241490064010}
   - {fileID: 7679418077131156027}
   - {fileID: 2051850217424161513}
-  EditorParameters: []
+  - {fileID: -5864222162391183847}
+  - {fileID: 5838561767856279093}
+  - {fileID: 6311709643760706884}
+  - {fileID: 278149715185397627}
+  EditorParameters:
+  - {fileID: -8193623395751266065}
   MasterBanks:
-  - {fileID: 3680090855248405677}
+  - {fileID: -444223018412061079}
   StringsBanks:
   - {fileID: -8647800092036659654}
   cacheVersion: 131859
-  cacheTime: 639140248440470720
+  cacheTime: 639144423952548280
   SerializableEventsDict:
   - key: event:/Footsteps
     index: 0
@@ -230,6 +359,41 @@ MonoBehaviour:
     index: 9
   - key: event:/Foliage Brush
     index: 10
+  - key: event:/Female Voice 2
+    index: 11
+  - key: event:/Male Voice 1
+    index: 12
+  - key: event:/Female Voice 1
+    index: 13
+  - key: event:/Male Voice 2
+    index: 14
+--- !u!114 &278149715185397627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Male Voice 2
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Male Voice 2
+  Guid:
+    Data1: -1946636807
+    Data2: 1336338039
+    Data3: 1541556152
+    Data4: 1407850332
+  Banks:
+  - {fileID: -5713362066808748636}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 9.400001
+  Length: 0
 --- !u!114 &2051850217424161513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,10 +444,11 @@ MonoBehaviour:
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
-  Parameters: []
+  Parameters:
+  - {fileID: -3581675346921734350}
   MinDistance: 1
   MaxDistance: 20
-  Length: 79000
+  Length: 173697
 --- !u!114 &3613577953293516895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,24 +477,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &3680090855248405677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
-  Path: Assets/Audio/Master.bank
-  Name: Master
-  StudioPath: bank:/Master
-  lastModified: 639140248378858124
-  FileSizes: []
-  Exists: 1
 --- !u!114 &4582134023190076495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,6 +555,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &5838561767856279093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Male Voice 1
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Male Voice 1
+  Guid:
+    Data1: 159352542
+    Data2: 1272561380
+    Data3: 2057116558
+    Data4: -103653201
+  Banks:
+  - {fileID: -5713362066808748636}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 9
+  Length: 0
 --- !u!114 &6273316921920337197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,9 +597,36 @@ MonoBehaviour:
   Path: Assets/Audio/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639140248422215127
+  lastModified: 639144423940598126
   FileSizes: []
   Exists: 1
+--- !u!114 &6311709643760706884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Female Voice 1
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Female Voice 1
+  Guid:
+    Data1: 1827184633
+    Data2: 1181413608
+    Data3: 856724886
+    Data4: -847688984
+  Banks:
+  - {fileID: -5713362066808748636}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 9.400001
+  Length: 0
 --- !u!114 &7679418077131156027
 MonoBehaviour:
   m_ObjectHideFlags: 0

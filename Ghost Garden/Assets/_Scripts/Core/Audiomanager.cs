@@ -8,13 +8,13 @@ public class AudioManager : MonoBehaviour
 
     // ── Event paths from Master_strings.bank ─────────────────────────────────
     const string EVT_BIRD_CHIRP       = "event:/Bird Chirp";
-    const string EVT_FOLIAGE_BRUSH    = "event:/Foliage Brush";  // new — trees/flowers
+    const string EVT_FOLIAGE_BRUSH    = "event:/Foliage Brush";
     const string EVT_FOOTSTEPS        = "event:/Footsteps";
     const string EVT_AMBIENCE         = "event:/Level Ambience";
     const string EVT_MUSIC            = "event:/Music Loop";
     const string EVT_NUDGE            = "event:/Nudge";
     const string EVT_PAUSE_TRANSITION = "event:/Pause Transition";
-    const string EVT_THUD             = "event:/Thud";            // new — impact sound
+    const string EVT_THUD             = "event:/Thud";
     const string EVT_UI_POP           = "event:/UI Pop";
     const string EVT_WATERING_CAN     = "event:/Watering Can + Shelf";
     const string EVT_WINDCHIME        = "event:/Windchime";
@@ -60,6 +60,18 @@ public class AudioManager : MonoBehaviour
         _playerFootstepsInstance.release();
         _neighbourFootstepsInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         _neighbourFootstepsInstance.release();
+    }
+
+    // ── Time of day ───────────────────────────────────────────────────────────
+
+    // Called every frame by DayNightCycle.
+    // isNight=true  → parameter "Time of Day" = 0
+    // isNight=false → parameter "Time of Day" = 1
+    // Swap the two values below if you need to flip day/night.
+    public void SetTimeOfDay(bool isNight)
+    {
+        float value = isNight ? 0f : 1f;
+        RuntimeManager.StudioSystem.setParameterByName("Time of Day", value);
     }
 
     // ── Player footsteps ──────────────────────────────────────────────────────
@@ -108,11 +120,9 @@ public class AudioManager : MonoBehaviour
         inst.release();
     }
 
-    // Played when the player nudges a foliage object (tree, flower, bush)
     public void PlayFoliageBrush(Vector3 worldPos)
         => RuntimeManager.PlayOneShot(EVT_FOLIAGE_BRUSH, worldPos);
 
-    // Played on heavy impacts e.g. watering can hitting the ground
     public void PlayThud(Vector3 worldPos)
         => RuntimeManager.PlayOneShot(EVT_THUD, worldPos);
 
