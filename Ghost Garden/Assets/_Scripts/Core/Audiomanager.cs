@@ -65,12 +65,12 @@ public class AudioManager : MonoBehaviour
     // ── Time of day ───────────────────────────────────────────────────────────
 
     // Called every frame by DayNightCycle.
-    // isNight=true  → parameter "Time of Day" = 0
-    // isNight=false → parameter "Time of Day" = 1
+    // isNight=true  → parameter "Time of Day" = 1
+    // isNight=false → parameter "Time of Day" = 0
     // Swap the two values below if you need to flip day/night.
     public void SetTimeOfDay(bool isNight)
     {
-        float value = isNight ? 0f : 1f;
+        float value = isNight ? 1f : 0f;
         RuntimeManager.StudioSystem.setParameterByName("Time of Day", value);
     }
 
