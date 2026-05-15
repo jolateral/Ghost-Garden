@@ -476,9 +476,9 @@ MonoBehaviour:
   VirtualChannelSettings: []
   RealChannelSettings: []
   Plugins: []
-  MasterBanks: []
+  MasterBanks:
+  - Master
   Banks:
-  - Master-2
   - Music
   - SFX
   BanksToLoad: []

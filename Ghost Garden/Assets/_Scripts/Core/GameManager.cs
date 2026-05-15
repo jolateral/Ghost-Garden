@@ -6,9 +6,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [Header("Settings")]
-    public int maxDays = 10;
+    public int maxDays    = 10;
     public int currentDay = 1;
-    public bool gameWon = false;
+    public bool gameWon   = false;
 
     void Awake()
     {
@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
         currentDay++;
         NudgeSystem.Instance?.ResetNudges();
         HUDManager.Instance?.UpdateDayDisplay(currentDay, maxDays);
+
+        foreach (var npc in BackgroundNPC.All)
+            npc.ResetDay();
 
         if (currentDay > maxDays)
             TriggerLose();

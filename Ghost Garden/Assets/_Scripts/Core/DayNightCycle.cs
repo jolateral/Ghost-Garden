@@ -45,10 +45,18 @@ public class DayNightCycle : MonoBehaviour
         UpdateSkybox();
         AudioManager.Instance?.SetTimeOfDay(isNight);
 
+        // Trigger the neighbour's daily walk
         if (!_neighbourTriggeredToday && _time >= neighbourWalkTime)
         {
             _neighbourTriggeredToday = true;
             NeighbourAI.Instance?.TriggerDailyWalk();
+        }
+
+        // Trigger each background NPC when their individual walkStartTime is reached
+        foreach (var npc in BackgroundNPC.All)
+        {
+            if (!npc.TriggeredToday && _time >= npc.walkStartTime)
+                npc.TriggerWalk();
         }
 
         if (_time >= 1f)

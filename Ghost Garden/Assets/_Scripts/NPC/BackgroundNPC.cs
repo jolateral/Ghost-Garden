@@ -26,6 +26,8 @@ public class BackgroundNPC : MonoBehaviour
 
     public bool IsWalking { get; private set; }
 
+    public bool TriggeredToday => _triggeredToday;
+
     NavMeshAgent    _agent;
     Animator        _animator;
     bool            _waitingForPath;
@@ -82,19 +84,43 @@ public class BackgroundNPC : MonoBehaviour
             _voiceInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform.position));
         }
 
+        // Stay inactive — DayNightCycle will call TriggerWalk() at the right time
         gameObject.SetActive(false);
+    }
+
+    // Called by DayNightCycle when CurrentTime passes this NPC's walkStartTime
+    public void TriggerWalk()
+    {
+        if (_triggeredToday) return;
+        if (waypoints == null || waypoints.Length == 0)
+        {
+            Debug.LogWarning($"[BackgroundNPC] {gameObject.name} has no waypoints assigned!");
+            return;
+        }
+
+        _triggeredToday = true;
+
+        _route.Clear();
+        for (int i = 0; i < waypoints.Length; i++)
+            _route.Add(waypoints[i]);
+        for (int i = waypoints.Length - 2; i >= 0; i--)
+            _route.Add(waypoints[i]);
+
+        _routeIndex = 0;
+        gameObject.SetActive(true);
+        StartFootsteps();
+        StartVoice();
+        MoveTo(_route[_routeIndex]);
+    }
+
+    // Called by GameManager when a new day starts
+    public void ResetDay()
+    {
+        _triggeredToday = false;
     }
 
     void Update()
     {
-        // Check if it's time to start the walk today
-        DayNightCycle cycle = DayNightCycle.FindAnyObjectByType<DayNightCycle>();
-        if (!_triggeredToday && cycle != null && cycle.CurrentTime >= walkStartTime)
-        {
-            _triggeredToday = true;
-            TriggerWalk();
-        }
-
         if (!IsWalking) return;
 
         if (playFootstepAudio)
@@ -116,7 +142,6 @@ public class BackgroundNPC : MonoBehaviour
 
             if (_routeIndex >= _route.Count)
             {
-                // Walk complete — hide until tomorrow
                 StopFootsteps();
                 StopVoice();
                 gameObject.SetActive(false);
@@ -125,33 +150,6 @@ public class BackgroundNPC : MonoBehaviour
 
             MoveTo(_route[_routeIndex]);
         }
-    }
-
-    // Called by GameManager when a new day starts
-    public void ResetDay()
-    {
-        _triggeredToday = false;
-    }
-
-    void TriggerWalk()
-    {
-        if (waypoints == null || waypoints.Length == 0)
-        {
-            Debug.LogWarning($"[BackgroundNPC] {gameObject.name} has no waypoints assigned!");
-            return;
-        }
-
-        _route.Clear();
-        for (int i = 0; i < waypoints.Length; i++)
-            _route.Add(waypoints[i]);
-        for (int i = waypoints.Length - 2; i >= 0; i--)
-            _route.Add(waypoints[i]);
-
-        _routeIndex = 0;
-        gameObject.SetActive(true);
-        StartFootsteps();
-        StartVoice();
-        MoveTo(_route[_routeIndex]);
     }
 
     void MoveTo(Transform t)
