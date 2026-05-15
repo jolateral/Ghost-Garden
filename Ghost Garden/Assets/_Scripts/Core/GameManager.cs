@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
     {
         currentDay++;
         NudgeSystem.Instance?.ResetNudges();
-
         HUDManager.Instance?.UpdateDayDisplay(currentDay, maxDays);
 
         if (currentDay > maxDays)

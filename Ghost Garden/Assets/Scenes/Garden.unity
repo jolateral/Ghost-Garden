@@ -4686,7 +4686,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -272, y: -180}
+  m_AnchoredPosition: {x: -272, y: -159}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &480775300
@@ -16491,6 +16491,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5254920877097093508, guid: 9b479d6c09bd64a2e8c2521b8cd1d516, type: 3}
   m_PrefabInstance: {fileID: 2072998956}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1684913706 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2546121432116659791, guid: 7a3e76d3ba476dc43adbe00faa26df0d, type: 3}
+  m_PrefabInstance: {fileID: 1369450484}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1692795047 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5202732821079344928, guid: cebfacc247a640945a2c30b442202fca, type: 3}
@@ -16799,6 +16804,13 @@ MonoBehaviour:
   - {fileID: 1800568812}
   housePosition: {fileID: 834785857}
   nearHouseDistance: 3.71
+  wateringCanWaypoint: {fileID: 1958826239}
+  wateringCanObject: {fileID: 1119785393}
+  handBone: {fileID: 1684913706}
+  wateringCanHandOffset: {x: 0.386, y: 0.147, z: -0.134}
+  wateringCanHandRotation: {x: 298.428, y: 238.569, z: 228.165}
+  wateringCanWorldScale: {x: 0.5, y: 0.5, z: 0.5}
+  wateringAnimationLength: 5.6
   isInspecting: 0
 --- !u!195 &1723551609
 NavMeshAgent:
@@ -19500,6 +19512,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 173095176654411130, guid: b1175cc5bbb11b648af5926d9432b494, type: 3}
   m_PrefabInstance: {fileID: 1954084894}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1958826238
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1958826239}
+  m_Layer: 0
+  m_Name: wateringCanWaypoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1958826239
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958826238}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.19, y: 0.34, z: -2.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1959872632
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22313,3 +22356,4 @@ SceneRoots:
   - {fileID: 2081409131}
   - {fileID: 1155050612}
   - {fileID: 641075419}
+  - {fileID: 1958826239}
