@@ -12,12 +12,20 @@ public class PlayerController : MonoBehaviour
     [Header("Debug")]
     public bool debugFootsteps = true;
 
+    public bool InputDisabled { get; private set; }
+
+    public void SetInputEnabled(bool enabled)
+    {
+        InputDisabled = !enabled;
+
+        if (InputDisabled)
+            AudioManager.Instance?.SetPlayerFootstepsActive(false, transform.position);
+    }
+
     CharacterController _cc;
     float _xRotation;
     InputAction _moveAction;
     InputAction _lookAction;
-
-    // Track previous state so we only log on change, not every frame
     bool _wasMoving;
 
     void Awake()
@@ -28,7 +36,6 @@ public class PlayerController : MonoBehaviour
             .With("Down",  "<Keyboard>/s")
             .With("Left",  "<Keyboard>/a")
             .With("Right", "<Keyboard>/d");
-
         _lookAction = new InputAction("Look", binding: "<Mouse>/delta");
     }
 
@@ -47,15 +54,14 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        _cc = gameObject.GetComponent<CharacterController>();
+        _cc = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible   = false;
 
-        // Confirm AudioManager is reachable
         if (debugFootsteps)
         {
             if (AudioManager.Instance == null)
-                Debug.LogError("[PlayerController] AudioManager.Instance is NULL! Make sure AudioManager is in the scene and its Awake runs before this.");
+                Debug.LogError("[PlayerController] AudioManager.Instance is NULL!");
             else
                 Debug.Log("[PlayerController] AudioManager found OK.");
         }
@@ -63,6 +69,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (InputDisabled)
+        {
+            HandleLook();
+            return;
+        }
+
         HandleLook();
         HandleMovement();
     }
@@ -72,7 +84,8 @@ public class PlayerController : MonoBehaviour
         Vector2 look = _lookAction.ReadValue<Vector2>();
         float mouseX = look.x * mouseSensitivity * Time.deltaTime * 100f;
         float mouseY = look.y * mouseSensitivity * Time.deltaTime * 100f;
-        _xRotation = Mathf.Clamp(_xRotation - mouseY, -80f, 80f);
+
+        _xRotation = Mathf.Clamp(_xRotation + mouseY, -80f, 80f);
         cameraTransform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
     }
@@ -85,7 +98,6 @@ public class PlayerController : MonoBehaviour
 
         bool isMoving = input.magnitude > 0.1f;
 
-        // Log only when the state changes so the console doesn't flood
         if (debugFootsteps && isMoving != _wasMoving)
             Debug.Log($"[PlayerController] Movement state changed → isMoving: {isMoving}, input magnitude: {input.magnitude:F3}");
 

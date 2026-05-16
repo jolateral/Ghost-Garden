@@ -8,8 +8,10 @@ public class GhostInteractor : MonoBehaviour
     public GameObject crosshairDefault;
     public GameObject crosshairInteract;
 
-    NudgeableObject _hovering;
+    [Tooltip("Set this to everything EXCEPT the Player layer so the raycast doesn't hit your own collider.")]
+    public LayerMask interactMask = Physics.DefaultRaycastLayers;
 
+    NudgeableObject _hovering;
     InputAction _nudgeAction;
 
     void Awake()
@@ -46,7 +48,8 @@ public class GhostInteractor : MonoBehaviour
         Ray ray = playerCamera.ScreenPointToRay(
             new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
 
-        if (Physics.Raycast(ray, out RaycastHit hit, interactRange))
+        // interactMask excludes the Player layer so the ray never hits your own collider
+        if (Physics.Raycast(ray, out RaycastHit hit, interactRange, interactMask))
         {
             _hovering = hit.collider.gameObject.GetComponent<NudgeableObject>();
         }
@@ -63,9 +66,7 @@ public class GhostInteractor : MonoBehaviour
     {
         if (_hovering == null) return;
         if (GameManager.Instance.gameWon) return;
-
         if (!NudgeSystem.Instance.TrySpendNudge()) return;
-
         _hovering.Nudge();
     }
 }
