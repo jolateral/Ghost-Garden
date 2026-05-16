@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class DayNightCycle : MonoBehaviour
 {
     [Header("Timing")]
@@ -18,8 +17,13 @@ public class DayNightCycle : MonoBehaviour
     [Range(0.01f, 0.3f)]
     public float transitionWidth = 0.08f;
 
+    [Header("NPC Spawning")]
+    [Tooltip("Drag your NPCSpawner GameObject here.")]
+    public NPCSpawner npcSpawner;
+
     float _time;
     bool  _neighbourTriggeredToday;
+    bool  _npcsSpawnedToday;
 
     public float CurrentTime => _time;
 
@@ -27,6 +31,19 @@ public class DayNightCycle : MonoBehaviour
     {
         if (skyboxBlendMaterial != null)
             RenderSettings.skybox = skyboxBlendMaterial;
+
+        Debug.Log($"[DayNightCycle] Start — _time={_time:F3}, isNight={IsNightTime(_time)}, npcSpawner={(npcSpawner == null ? "NULL !!!" : npcSpawner.name)}");
+
+        if (!IsNightTime(_time))
+        {
+            Debug.Log("[DayNightCycle] Daytime on Start — calling SpawnDailyNPCs now.");
+            npcSpawner?.SpawnDailyNPCs();
+            _npcsSpawnedToday = true;
+        }
+        else
+        {
+            Debug.Log("[DayNightCycle] Nighttime on Start — waiting for dawn to spawn NPCs.");
+        }
     }
 
     void Update()
@@ -45,24 +62,35 @@ public class DayNightCycle : MonoBehaviour
         UpdateSkybox();
         AudioManager.Instance?.SetTimeOfDay(isNight);
 
-        // Trigger the neighbour's daily walk
         if (!_neighbourTriggeredToday && _time >= neighbourWalkTime)
         {
             _neighbourTriggeredToday = true;
             NeighbourAI.Instance?.TriggerDailyWalk();
         }
 
-        // Trigger each background NPC when their individual walkStartTime is reached
+        // Dawn spawn trigger
+        if (!isNight && !_npcsSpawnedToday)
+        {
+            Debug.Log($"[DayNightCycle] Dawn at _time={_time:F3} — calling SpawnDailyNPCs.");
+            npcSpawner?.SpawnDailyNPCs();
+            _npcsSpawnedToday = true;
+        }
+
         foreach (var npc in BackgroundNPC.All)
         {
-            if (!npc.TriggeredToday && _time >= npc.walkStartTime)
+            if (!npc.TriggeredToday && !IsNightTime(_time) && _time >= npc.walkStartTime)
+            {
+                Debug.Log($"[DayNightCycle] Triggering {npc.gameObject.name} at _time={_time:F3} (walkStartTime={npc.walkStartTime:F3})");
                 npc.TriggerWalk();
+            }
         }
 
         if (_time >= 1f)
         {
+            Debug.Log("[DayNightCycle] Midnight rollover — resetting day.");
             _time = 0f;
             _neighbourTriggeredToday = false;
+            _npcsSpawnedToday        = false;
             GameManager.Instance?.AdvanceDay();
         }
     }
