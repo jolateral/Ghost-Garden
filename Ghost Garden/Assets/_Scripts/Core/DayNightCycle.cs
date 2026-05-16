@@ -57,6 +57,8 @@ public class DayNightCycle : MonoBehaviour
             directionalLight.color = skyColour.Evaluate(_time);
             directionalLight.transform.rotation =
                 Quaternion.Euler(_time * 360f - 90f, 170f, 0f);
+            // In Update(), right after setting the rotation:
+directionalLight.enabled = !IsNightTime(_time);
         }
 
         UpdateSkybox();
